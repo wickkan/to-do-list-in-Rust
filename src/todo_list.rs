@@ -1,7 +1,7 @@
 use crate::todo::Todo;
-use serde_json::{self, Error};
-use std::fs::{self, File};
-use std::io::{self, Write, BufReader, BufWriter};
+use serde_json::{self};
+use std::fs::File;
+use std::io::{BufReader, BufWriter};
 
 pub struct TodoList {
     pub todos: Vec<Todo>,
@@ -32,19 +32,18 @@ impl TodoList {
         }
     }
 
-    pub fn save(&self, filename: &str) -> Result<(), Error> {
+    pub fn save(&self, filename: &str) -> Result<(), Box<dyn std::error::Error>> {
         let file = File::create(filename)?;
         let writer = BufWriter::new(file);
         serde_json::to_writer(writer, &self.todos)?;
         Ok(())
     }
 
-    pub fn load(&mut self, filename: &str) -> Result<(), Error> {
-        let file = File::open(filename);
-        if let Ok(file) = file {
-            let reader = BufReader::new(file);
-            self.todos = serde_json::from_reader(reader)?;
-        }
+    pub fn load(&mut self, filename: &str) -> Result<(), Box<dyn std::error::Error>> {
+        let file = File::open(filename)?;
+        let reader = BufReader::new(file);
+        self.todos = serde_json::from_reader(reader)?;
         Ok(())
     }
 }
+
