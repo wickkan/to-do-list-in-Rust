@@ -1,8 +1,7 @@
-// src/todo.rs
-
+use serde::{Serialize, Deserialize};
 use std::fmt;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Todo {
     pub id: usize,
     pub title: String,
