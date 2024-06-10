@@ -1,5 +1,3 @@
-// src/main.rs
-
 mod todo;
 mod todo_list;
 
@@ -9,12 +7,18 @@ use todo_list::TodoList;
 
 fn main() {
     let mut todo_list = TodoList::new();
+    let filename = "todo_list.json";
+
+    // Try to load the to-do list from file
+    if todo_list.load(filename).is_err() {
+        println!("No existing to-do list found, starting a new one.");
+    }
 
     loop {
         println!("1. Add a new To-Do");
         println!("2. Mark a To-Do as done");
         println!("3. List all To-Dos");
-        println!("4. Exit");
+        println!("4. Save and Exit");
 
         print!("Enter your choice: ");
         io::stdout().flush().unwrap();
@@ -45,6 +49,10 @@ fn main() {
                 todo_list.list();
             }
             "4" => {
+                // Save the to-do list to file and exit
+                if todo_list.save(filename).is_err() {
+                    println!("Failed to save the to-do list.");
+                }
                 break;
             }
             _ => {
