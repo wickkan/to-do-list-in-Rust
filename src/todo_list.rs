@@ -45,5 +45,9 @@ impl TodoList {
         self.todos = serde_json::from_reader(reader)?;
         Ok(())
     }
+
+    pub fn delete(&mut self, id: usize) {
+        self.todos.retain(|todo| todo.id != id);
+    }
 }
 
