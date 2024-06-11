@@ -14,10 +14,11 @@ impl TodoList {
         }
     }
 
-    pub fn add(&mut self, title: String) {
+    pub fn add(&mut self, title: String, priority: u8) {
         let id = self.todos.len() + 1;
-        let todo = Todo::new(id, title);
+        let todo = Todo::new(id, title, priority);
         self.todos.push(todo);
+        self.todos.sort_by(|a, b| a.priority.cmp(&b.priority));
     }
 
     pub fn mark_done(&mut self, id: usize) {

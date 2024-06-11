@@ -34,7 +34,16 @@ fn main() {
                 print!("Enter the title of the To-Do: ");
                 io::stdout().flush().unwrap();
                 io::stdin().read_line(&mut title).expect("Failed to read line");
-                todo_list.add(title.trim().to_string());
+
+                let mut priority_str = String::new();
+                print!("Enter the priority of the To-Do (1-5): ");
+                io::stdout().flush().unwrap();
+                io::stdin().read_line(&mut priority_str).expect("Failed to read line");
+                if let Ok(priority) = priority_str.trim().parse::<u8>() {
+                    todo_list.add(title.trim().to_string(), priority);
+                } else {
+                    println!("Invalid priority");
+                }
             }
             "2" => {
                 let mut id_str = String::new();
@@ -89,3 +98,4 @@ fn main() {
         }
     }
 }
+
