@@ -49,5 +49,11 @@ impl TodoList {
     pub fn delete(&mut self, id: usize) {
         self.todos.retain(|todo| todo.id != id);
     }
+
+    pub fn update(&mut self, id: usize, new_title: String) {
+        if let Some(todo) = self.todos.iter_mut().find(|todo| todo.id == id) {
+            todo.title = new_title;
+        }
+    }
 }
 

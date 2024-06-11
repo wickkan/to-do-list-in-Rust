@@ -19,7 +19,8 @@ fn main() {
         println!("2. Mark a To-Do as done");
         println!("3. List all To-Dos");
         println!("4. Delete a To-Do");
-        println!("5. Save and Exit");
+        println!("5. Update a To-Do");
+        println!("6. Save and Exit");
 
         print!("Enter your choice: ");
         io::stdout().flush().unwrap();
@@ -61,6 +62,21 @@ fn main() {
                 }
             }
             "5" => {
+                let mut id_str = String::new();
+                print!("Enter the ID of the To-Do to update: ");
+                io::stdout().flush().unwrap();
+                io::stdin().read_line(&mut id_str).expect("Failed to read line");
+                if let Ok(id) = id_str.trim().parse::<usize>() {
+                    let mut new_title = String::new();
+                    print!("Enter the new title of the To-Do: ");
+                    io::stdout().flush().unwrap();
+                    io::stdin().read_line(&mut new_title).expect("Failed to read line");
+                    todo_list.update(id, new_title.trim().to_string());
+                } else {
+                    println!("Invalid ID");
+                }
+            }
+            "6" => {
                 // Save the to-do list to file and exit
                 if todo_list.save(filename).is_err() {
                     println!("Failed to save the to-do list.");
@@ -73,5 +89,3 @@ fn main() {
         }
     }
 }
-
-
